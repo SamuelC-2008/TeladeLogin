@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -132,7 +133,7 @@
 
         <h2>Área de Login</h2>
 
-        <form>
+        <form id="formLogin">
 
             <label for="usuario">Usuário:</label>
 
@@ -158,6 +159,8 @@
 
         </form>
 
+        <p id="mensagem"></p>
+
         <p>
             <a href="#">
                 Esqueci minha senha
@@ -173,5 +176,74 @@
 
     </main>
 
+    <script>
+        const formLogin = document.getElementById("formLogin");
+
+        formLogin.addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            const usuario = document.getElementById("usuario").value;
+            const senha = document.getElementById("senha").value;
+            const mensagem = document.getElementById("mensagem");
+
+            // Busca os usuários salvos pelo cadastro.
+            // Se não houver usuários, utiliza uma lista vazia.
+            const usuarios = JSON.parse(
+                localStorage.getItem("usuarios")
+            ) || [];
+
+            // Guarda o usuário encontrado.
+            let usuarioEncontrado = null;
+
+            // Login de teste do administrador.
+            if (usuario === "admin" && senha === "1234") {
+                usuarioEncontrado = {
+                    nome: "Administrador"
+                };
+            }
+
+            // Procura o usuário e a senha na lista de cadastrados.
+            for (let i = 0; i < usuarios.length; i++) {
+
+                if (
+                    usuarios[i].usuario === usuario &&
+                    usuarios[i].senha === senha
+                ) {
+                    usuarioEncontrado = usuarios[i];
+                    break;
+                }
+            }
+
+            // Verifica se o login foi válido.
+            if (usuarioEncontrado !== null) {
+
+                // Guarda o nome do usuário que entrou.
+                localStorage.setItem(
+                    "usuarioLogado",
+                    usuarioEncontrado.nome
+                );
+
+                mensagem.textContent =
+                    "Login realizado! Entrando...";
+
+                mensagem.style.color = "green";
+
+                setTimeout(function() {
+                    window.location.href = "index.html";
+                }, 500);
+
+            } else {
+
+                mensagem.textContent =
+                    "Usuário ou senha incorretos.";
+
+                mensagem.style.color = "red";
+            }
+
+        });
+    </script>
+
 </body>
 </html>
+```
