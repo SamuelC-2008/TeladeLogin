@@ -327,6 +327,42 @@
             }, 1500);
 
         });
+      // ===== SALVANDO O CADASTRO NO NAVEGADOR =====
+
+            // 1. Pega a lista de usuários salvos.
+            // Se não tiver nenhum ainda, começa com uma lista vazia [].
+            const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+            // 2. Não deixa cadastrar o mesmo usuário duas vezes
+            for (let i = 0; i < usuarios.length; i++) {
+                if (usuarios[i].usuario === usuario.value) {
+                    marcarErro(usuario, "Esse usuário já existe. Escolha outro.");
+                    return;
+                }
+            }
+
+            // 3. Junta os dados da pessoa em um objeto
+            const novoUsuario = {
+                nome: nome.value.trim(),
+                email: email.value,
+                usuario: usuario.value,
+                senha: senha.value
+            };
+
+            // 4. Coloca a pessoa nova no final da lista
+            usuarios.push(novoUsuario);
+
+            // 5. Salva a lista no navegador (transformada em texto)
+            localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+            // 6. Mostra a mensagem e vai para o login
+            mostrarMensagem("Cadastro realizado, " + nome.value.trim() + "!", "green");
+
+            setTimeout(function() {
+                window.location.href = "login.html";
+            }, 1500);
+        });
+    
     </script>
 
 </body>
