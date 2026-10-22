@@ -96,17 +96,13 @@
 
         .logout {
             padding: 11px 20px;
-
             border: 1px solid var(--cor-destaque);
             border-radius: 8px;
-
             background: transparent;
             color: var(--cor-destaque);
-
             font-size: 14px;
             font-weight: bold;
             cursor: pointer;
-
             transition: 0.3s;
         }
 
@@ -128,15 +124,12 @@
         .welcome {
             padding: 35px;
             margin-bottom: 28px;
-
             background: var(--cor-vidro);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-
             border: 1px solid var(--cor-borda);
             border-left: 4px solid var(--cor-destaque);
             border-radius: 16px;
-
             box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
         }
 
@@ -181,7 +174,6 @@
         .card {
             position: relative;
             overflow: hidden;
-
             min-height: 215px;
             padding: 26px;
 
@@ -191,7 +183,6 @@
 
             border: 1px solid var(--cor-borda);
             border-radius: 14px;
-
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 
             transition: transform 0.3s, border-color 0.3s,
@@ -225,17 +216,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-
             width: 48px;
             height: 48px;
             margin-bottom: 22px;
 
             border: 1px solid rgba(46, 255, 245, 0.4);
             border-radius: 12px;
-
             background: rgba(46, 255, 245, 0.1);
             color: var(--cor-destaque);
-
             font-size: 24px;
         }
 
@@ -253,7 +241,6 @@
         .card a {
             display: inline-block;
             margin-top: 18px;
-
             color: var(--cor-destaque);
             font-size: 13px;
             font-weight: bold;
@@ -268,10 +255,8 @@
         footer {
             padding: 22px 15px;
             text-align: center;
-
             color: #c5d0d4;
             font-size: 12px;
-
             background: rgba(0, 0, 0, 0.35);
             border-top: 1px solid rgba(255, 255, 255, 0.12);
         }
@@ -280,7 +265,7 @@
             color: var(--cor-destaque);
         }
 
-        /* ADAPTAÇÃO PARA TABLETS E CELULARES */
+        /* TABLETS */
         @media (max-width: 800px) {
             .cards {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -291,6 +276,7 @@
             }
         }
 
+        /* CELULARES */
         @media (max-width: 520px) {
             header {
                 padding: 18px 5%;
@@ -334,7 +320,7 @@
             }
         }
 
-        /* ACESSIBILIDADE: MOVIMENTOS REDUZIDOS */
+        /* ACESSIBILIDADE */
         @media (prefers-reduced-motion: reduce) {
             *,
             *::before,
@@ -355,13 +341,11 @@
         </div>
 
         <div class="header-direita">
-
             <span class="status">Sistema online</span>
 
             <button class="logout" type="button" onclick="sair()">
                 Sair ↗
             </button>
-
         </div>
 
     </header>
@@ -373,7 +357,7 @@
 
             <p class="subtitulo">Painel de controle</p>
 
-            <h1>Bem-vindo ao NEXORA.</h1>
+            <h1 id="boasVindas">Bem-vindo ao NEXORA.</h1>
 
             <p>
                 Sua central de tecnologia e inovação.
@@ -390,7 +374,6 @@
         <section class="cards">
 
             <article class="card">
-
                 <div class="icone" aria-hidden="true">▦</div>
 
                 <h3>Dashboard</h3>
@@ -403,11 +386,9 @@
                 <a href="#" onclick="mostrarAviso(event, 'Dashboard')">
                     Acessar painel →
                 </a>
-
             </article>
 
             <article class="card">
-
                 <div class="icone" aria-hidden="true">♙</div>
 
                 <h3>Usuários</h3>
@@ -420,11 +401,9 @@
                 <a href="#" onclick="mostrarAviso(event, 'Usuários')">
                     Gerenciar usuários →
                 </a>
-
             </article>
 
             <article class="card">
-
                 <div class="icone" aria-hidden="true">⚙</div>
 
                 <h3>Configurações</h3>
@@ -437,7 +416,6 @@
                 <a href="#" onclick="mostrarAviso(event, 'Configurações')">
                     Ver configurações →
                 </a>
-
             </article>
 
         </section>
@@ -450,16 +428,28 @@
     </footer>
 
     <script>
+        // Recupera o nome salvo pelo login
+        const nomeLogado = localStorage.getItem("usuarioLogado");
+
+        // Personaliza a mensagem de boas-vindas
+        if (nomeLogado) {
+            document.getElementById("boasVindas").textContent =
+                "Bem-vindo ao NEXORA, " + nomeLogado + "!";
+        }
+
+        // Botão sair
         function sair() {
             const confirmar = window.confirm(
                 "Deseja realmente sair do NEXORA?"
             );
 
             if (confirmar) {
+                localStorage.removeItem("usuarioLogado");
                 window.location.href = "login.html";
             }
         }
 
+        // Avisos dos cartões
         function mostrarAviso(event, secao) {
             event.preventDefault();
 
@@ -471,5 +461,4 @@
     </script>
 
 </body>
-
 </html>
