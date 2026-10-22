@@ -1,0 +1,333 @@
+
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - NEXORA</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+
+            background-image:
+                linear-gradient(
+                    rgba(0, 0, 0, 0.45),
+                    rgba(0, 0, 0, 0.45)
+                ),
+                url("https://cdn.pixabay.com/photo/2021/03/02/01/07/cyberpunk-6061251_1280.jpg");
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        main {
+            width: 90%;
+            max-width: 400px;
+            padding: 35px;
+
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+
+            color: white;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            font-size: 18px;
+            font-weight: normal;
+            color: #2EFFF5;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        label {
+            text-align: left;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+
+            border: none;
+            border-radius: 8px;
+            outline: none;
+
+            font-size: 15px;
+
+            background: rgba(255, 255, 255, 0.85);
+            color: #222;
+        }
+
+        input::placeholder {
+            color: #555;
+        }
+
+        input:focus {
+            box-shadow: 0 0 8px #2EFFF5;
+        }
+
+        input.erro {
+            border: 2px solid #dc2626;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 13px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #2EFFF5;
+            color: #222;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: white;
+            transform: scale(1.03);
+        }
+
+        #mensagem {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .links a {
+            color: #2EFFF5;
+            text-decoration: none;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main>
+
+        <h1>Nexora</h1>
+
+        <h2>Criar Conta</h2>
+
+        <form id="formCadastro">
+
+            <label for="nome">Nome completo:</label>
+
+            <input
+                type="text"
+                id="nome"
+                placeholder="Digite seu nome"
+                required
+            >
+
+            <label for="email">E-mail:</label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Digite seu e-mail"
+                required
+            >
+
+            <label for="usuario">Usuário:</label>
+
+            <input
+                type="text"
+                id="usuario"
+                placeholder="Escolha um nome de usuário"
+                required
+            >
+
+            <label for="senha">Senha:</label>
+
+            <input
+                type="password"
+                id="senha"
+                placeholder="Mínimo de 6 caracteres"
+                required
+            >
+
+            <label for="confirmarSenha">Confirmar senha:</label>
+
+            <input
+                type="password"
+                id="confirmarSenha"
+                placeholder="Digite a senha novamente"
+                required
+            >
+
+            <button type="submit">
+                Cadastrar
+            </button>
+
+        </form>
+
+        <p id="mensagem"></p>
+
+        <div class="links">
+
+            <p>
+                Já possui uma conta?
+                <a href="login.html">
+                    Entrar
+                </a>
+            </p>
+
+        </div>
+
+    </main>
+
+    <script>
+        const formCadastro = document.getElementById("formCadastro");
+        const mensagem = document.getElementById("mensagem");
+
+        function mostrarMensagem(texto, cor) {
+            mensagem.textContent = texto;
+            mensagem.style.color = cor;
+        }
+
+        function marcarErro(campo, texto) {
+            campo.classList.add("erro");
+            campo.focus();
+            mostrarMensagem(texto, "red");
+        }
+
+        formCadastro.addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            const nome = document.getElementById("nome");
+            const email = document.getElementById("email");
+            const usuario = document.getElementById("usuario");
+            const senha = document.getElementById("senha");
+            const confirmarSenha = document.getElementById("confirmarSenha");
+
+            const campos = [
+                nome,
+                email,
+                usuario,
+                senha,
+                confirmarSenha
+            ];
+
+            campos.forEach(function(campo) {
+                campo.classList.remove("erro");
+            });
+
+            if (nome.value.trim().length < 3) {
+
+                marcarErro(
+                    nome,
+                    "O nome deve ter pelo menos 3 caracteres."
+                );
+
+                return;
+            }
+
+            if (
+                !email.value.includes("@") ||
+                !email.value.includes(".")
+            ) {
+
+                marcarErro(
+                    email,
+                    "Digite um e-mail válido."
+                );
+
+                return;
+            }
+
+            if (usuario.value.includes(" ")) {
+
+                marcarErro(
+                    usuario,
+                    "O usuário não pode ter espaços."
+                );
+
+                return;
+            }
+
+            if (senha.value.length < 6) {
+
+                marcarErro(
+                    senha,
+                    "A senha deve ter pelo menos 6 caracteres."
+                );
+
+                return;
+            }
+
+            if (senha.value !== confirmarSenha.value) {
+
+                marcarErro(
+                    confirmarSenha,
+                    "As senhas não são iguais."
+                );
+
+                return;
+            }
+
+            mostrarMensagem(
+                "Cadastro realizado, " +
+                nome.value.trim() +
+                "! Redirecionando para o login...",
+                "green"
+            );
+
+            setTimeout(function() {
+
+                window.location.href = "login.html";
+
+            }, 1500);
+
+        });
+    </script>
+
+</body>
+</html>
